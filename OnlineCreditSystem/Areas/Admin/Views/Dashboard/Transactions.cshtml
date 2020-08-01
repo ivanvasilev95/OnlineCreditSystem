@@ -1,0 +1,17 @@
+﻿@model IEnumerable<OnlineCreditSystem.Models.TransactionViewModel>
+
+@{
+    ViewData["Title"] = "Transactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>User Transactions</h3>
+
+@if (!Model.Any())
+{
+    <h5 class="text-center">There are no user transactions</h5>
+}
+else
+{
+    await Html.RenderPartialAsync("~/Views/Shared/_TransactionListingPartial.cshtml", Model.ToList());
+}

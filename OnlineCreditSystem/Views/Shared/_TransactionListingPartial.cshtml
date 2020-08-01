@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TransactionViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Credits</th>
+            <th>Comment</th>
+            <th>Transaction Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>
+                    @transaction.SenderUsername
+                </td>
+                <td>
+                    @transaction.RecipientUsername
+                </td>
+                <td>
+                    @transaction.Amount
+                </td>
+                <td>
+                    @transaction.Comment
+                </td>
+                <td>
+                    @transaction.TransactionDate
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

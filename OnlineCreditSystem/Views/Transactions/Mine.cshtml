@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TransactionViewModel>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+@{
+    var sentTranscations = Model
+        .Where(t => t.SenderUsername == User.Identity.Name)
+        .OrderByDescending(t => t.TransactionDate)
+        .ToList();
+
+    var receivedTransactions = Model
+        .Where(t => t.RecipientUsername == User.Identity.Name)
+        .OrderByDescending(t => t.TransactionDate)
+        .ToList();
+}
+
+<h4>Transactions</h4>
+
+@if (!sentTranscations.Any() && !receivedTransactions.Any())
+{
+    <h5 class="text-center">You don't have any transactions yet.</h5>
+}
+
+@if (sentTranscations.Any())
+{
+    <div class="text-center">
+        <h4>Sent</h4>
+        <partial name="_TransactionListingPartial" model="@sentTranscations" />
+    </div>
+}
+
+@if (receivedTransactions.Any())
+{
+    <div class="text-center">
+        <h4>Received</h4>
+        <partial name="_TransactionListingPartial" model="@receivedTransactions" />
+    </div>
+}

@@ -1,0 +1,45 @@
+﻿@using OnlineCreditSystem.Models.TransactionsViewModels
+@model CreateTransactionViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <h4>Create a new transaction</h4>
+            <hr />
+            <!-- <div asp-validation-summary="All" class="text-danger"></div> -->
+            <div class="form-group">
+                <label asp-for="RecipientPhoneNumber"></label>
+                <input asp-for="RecipientPhoneNumber" class="form-control" />
+                <span asp-validation-for="RecipientPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Send</button>
+        </form>
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p class="text-success">@ViewBag.SuccessMessage</p>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="text-danger">@ViewBag.ErrorMessage</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

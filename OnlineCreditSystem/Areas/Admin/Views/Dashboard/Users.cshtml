@@ -1,0 +1,43 @@
+﻿@model IEnumerable<OnlineCreditSystem.Areas.Admin.Models.DashboardViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Users</h3>
+
+@if (!Model.Any())
+{
+    <h5 class="text-center">There are no users</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Phone Number</th>
+                <th>Credits</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        @user.UserName
+                    </td>
+                    <td>
+                        @user.Phone
+                    </td>
+                    <td>
+                        @user.Credits
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
