@@ -59,7 +59,7 @@ namespace OnlineCreditSystem
                 app.UseExceptionHandler("/Home/Error/{0}");
             }
 	    
-	        app.UseDefaultFiles();
+	    app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
