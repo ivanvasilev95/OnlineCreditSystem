@@ -16,48 +16,45 @@ namespace OnlineCreditSystem.Services
             _db = db;
         }
 
-        public bool CanMakeTransaction(string senderUsername, string enteredRecipientPhone, int amount, string comment, out string resultMessage)
+        public Result MakeTransaction(string senderUsername, string enteredRecipientPhone, int amount, string comment)
         {
             var currentUser = _db.Users
                 .FirstOrDefault(u => u.UserName == senderUsername);
             var recipient = _db.Users
                 .FirstOrDefault(u => u.PhoneNumber == enteredRecipientPhone && u.UserName != ServiceConstants.AdminUsername);
 
-            if (!InputIsValid(currentUser, recipient, enteredRecipientPhone, amount, out resultMessage))
+            var result = ValidateInput(currentUser, recipient, enteredRecipientPhone, amount);
+            if (result.Succeeded)
             {
-                return false;
+                ExecuteTransaction(currentUser, recipient, amount, comment);
             }
 
-            ExecuteTransaction(currentUser, recipient, amount, comment);
-
-            return true;
+            return result;
         }
 
-        private bool InputIsValid(User currentUser, User recipient, string enteredRecipientPhone, int enteredAmount, out string resultMessage)
+        private Result ValidateInput(User currentUser, User recipient, string enteredRecipientPhone, int enteredAmount)
         {
             if (currentUser == null)
             {
-                resultMessage = ServiceConstants.UserNotFound;
-                return false;
-            }
-            if (currentUser.Credits == 0 || currentUser.Credits < enteredAmount)
-            {
-                resultMessage = ServiceConstants.NotEnoughCredits;
-                return false;
-            }
-            if (currentUser.PhoneNumber == enteredRecipientPhone)
-            {
-                resultMessage = ServiceConstants.CantSendToYourself;
-                return false;
-            }
-            if (recipient == null)
-            {
-                resultMessage = ServiceConstants.RecipientNotFound;
-                return false;
+                return new Result { Succeeded = false, Message = ServiceConstants.UserNotFound };
             }
 
-            resultMessage = ServiceConstants.SuccessMessage;
-            return true;
+            if (currentUser.Credits == 0 || currentUser.Credits < enteredAmount)
+            {
+                return new Result { Succeeded = false, Message = ServiceConstants.NotEnoughCredits };
+            }
+
+            if (currentUser.PhoneNumber == enteredRecipientPhone)
+            {
+                return new Result { Succeeded = false, Message = ServiceConstants.CantSendToYourself };
+            }
+
+            if (recipient == null)
+            {
+                return new Result { Succeeded = false, Message = ServiceConstants.RecipientNotFound };
+            }
+
+            return new Result { Succeeded = true, Message = ServiceConstants.SuccessMessage };
         }
 
         private void ExecuteTransaction(User currentUser, User recipient, int amount, string comment)

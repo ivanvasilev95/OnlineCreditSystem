@@ -26,16 +26,17 @@ namespace OnlineCreditSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_transactionService.CanMakeTransaction(User.Identity.Name, model.RecipientPhoneNumber, model.Amount, model.Comment, out string resultMessage))
+                var result = _transactionService.MakeTransaction(User.Identity.Name, model.RecipientPhoneNumber, model.Amount, model.Comment);
+                if (result.Succeeded)
                 {
-                    ViewBag.SuccessMessage = resultMessage;
+                    ViewBag.SuccessMessage = result.Message;
                     ModelState.Clear();
 
                     return View();
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = resultMessage;
+                    ViewBag.ErrorMessage = result.Message;
                 }
             }
 

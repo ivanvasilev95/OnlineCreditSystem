@@ -9,7 +9,7 @@ namespace OnlineCreditSystem.Services
 {
     public interface ITransactionService
     {
-        bool CanMakeTransaction(string senderUsername, string enteredRecipientPhone, int amount, string comment, out string resultMessage);
+        Result MakeTransaction(string senderUsername, string enteredRecipientPhone, int amount, string comment);
         IEnumerable<TransactionViewModel> GetAllTransactions();
         IEnumerable<TransactionViewModel> GetUserTransactions(string userName);
     }
