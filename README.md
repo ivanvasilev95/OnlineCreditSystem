@@ -2,7 +2,6 @@
 Web-based system for sending gifts in the form of online credits.
 
 **Main user roles:**
-
 - User
     - Receives 100 credits automatically after registration
     - Send and receive credits
